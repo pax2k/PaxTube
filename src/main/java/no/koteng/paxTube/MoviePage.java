@@ -47,7 +47,7 @@ public class MoviePage extends WebPage implements Serializable {
                     protected void onEvent(AjaxRequestTarget target) {
                         String javaScriptInject = "document.getElementById('ytplayer').src = 'http://www.youtube.com/v/"
                                 + movie.getId()
-                                + "?version=3&autoplay=1&vq=hd720&loop=1;'";
+                                + "?autoplay=1&vq=hd720'";
                         target.appendJavaScript(javaScriptInject);
                     }
                 });
