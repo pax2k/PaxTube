@@ -1,0 +1,14 @@
+A simple app store for getting artifacts (for instance apk files) from Sonatype Nexus server.
+
+Just provide a url to your nexus server, groupId, artifactId, and packaging for the artifact you want to provide and which repositories to fetch from.
+
+Uses Nexus rest api to fetch information, written in Java and uses Apache Wicket framework.
+
+* No database required
+* No local hosting of files 
+* Support multiple artifacts (applications) and versions
+
+To test this:
+mvn jetty:run
+
+Navigate to http://localhost:8080/

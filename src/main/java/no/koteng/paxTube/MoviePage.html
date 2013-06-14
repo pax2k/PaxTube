@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>PaxTube</title>
+
+    <meta charset="utf-8"/>
+
+    <!-- iOs  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Android -->
+    <meta name="viewport" content="target-densitydpi=device-dpi"/>
+
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet"/>
+</head>
+
+<body>
+
+<div>
+    <div>
+        <img class="top" src="paxTube.png" height="50" width="80"/> PaxTube 0.000000002a
+    </div>
+</div>
+<hr>
+
+<div class="centre">
+    <input style="width: 280px; height: 25px;" type="text" wicket:id="searchBox"/>
+</div>
+
+<div style="height: 380px; float: left">
+    <iframe id="ytplayer" type="text/html" width="640" height="360"
+            src="http://www.youtube.com/embed/klLniWq-edQ?autoplay=1"
+            frameborder="0" allowfullscreen>
+    </iframe>
+</div>
+
+<div wicket:id="searchResultWrapper" style="float: left; height: 380px; overflow: auto">
+    <div wicket:id="youTubeMovieListView" style="border-bottom: 1px solid lightcyan">
+        <div wicket:id="youTubeMovie" style="cursor: pointer;">
+            <img width="60px" height="45px" wicket:id="thumbnail"/>
+
+            <div wicket:id="title"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
