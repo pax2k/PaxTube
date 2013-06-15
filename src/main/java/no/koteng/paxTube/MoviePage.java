@@ -28,26 +28,32 @@ public class MoviePage extends WebPage implements Serializable {
     public MoviePage(PageParameters parameters) {
         super(parameters);
 
-        final WebMarkupContainer searchResultWrapper = new WebMarkupContainer("searchResultWrapper");
+        WebMarkupContainer searchResultWrapper = new WebMarkupContainer("searchResultWrapper");
         searchResultWrapper.setOutputMarkupId(true);
 
-        final ListView<YouTubeMovie> youTubeMovieListView = new ListView<YouTubeMovie>("youTubeMovieListView", movieList) {
+        ListView<YouTubeMovie> youTubeMovieListView = initYouTubeListView();
+        youTubeMovieListView.setOutputMarkupId(true);
+
+        TextField<String> searchBox = new TextField<String>("searchBox", new Model<String>());
+        searchBox.setOutputMarkupId(true);
+        searchBox.add(onChangeBehavior());
+        searchBox.add(onKeyDownBehavior(searchResultWrapper, youTubeMovieListView, searchBox));
+
+        searchResultWrapper.add(youTubeMovieListView);
+
+        add(searchBox);
+        add(searchResultWrapper);
+    }
+
+    private ListView<YouTubeMovie> initYouTubeListView() {
+        return new ListView<YouTubeMovie>("youTubeMovieListView", movieList) {
 
             @Override
             protected void populateItem(ListItem<YouTubeMovie> item) {
                 final YouTubeMovie movie = item.getModelObject();
                 final WebMarkupContainer youTubeMovie = new WebMarkupContainer("youTubeMovie");
                 youTubeMovie.setOutputMarkupId(true);
-                youTubeMovie.add(new AjaxEventBehavior("onClick") {
-
-                    @Override
-                    protected void onEvent(AjaxRequestTarget target) {
-                        String javaScriptInject = "document.getElementById('ytplayer').src = 'http://www.youtube.com/embed/"
-                                + movie.getId()
-                                + "?autoplay=1&vq=hd720'";
-                        target.appendJavaScript(javaScriptInject);
-                    }
-                });
+                youTubeMovie.add(onMovieClickedEvent(movie));
 
                 String title = movie.getTitle();
                 if (title.length() > 50) {
@@ -58,20 +64,19 @@ public class MoviePage extends WebPage implements Serializable {
                 item.add(youTubeMovie);
             }
         };
+    }
 
-        youTubeMovieListView.setOutputMarkupId(true);
-
-        final TextField<String> searchBox = new TextField<String>("searchBox", new Model<String>());
-        searchBox.setOutputMarkupId(true);
-
-        searchBox.add(new OnChangeAjaxBehavior() {
+    private OnChangeAjaxBehavior onChangeBehavior() {
+        return new OnChangeAjaxBehavior() {
             @Override
             protected void onUpdate(AjaxRequestTarget ajaxRequestTarget) {
                 ((TextField<String>) getComponent()).getModelObject();
             }
-        });
+        };
+    }
 
-        searchBox.add(new AjaxEventBehavior("keydown") {
+    private AjaxEventBehavior onKeyDownBehavior(final WebMarkupContainer searchResultWrapper, final ListView<YouTubeMovie> youTubeMovieListView, final TextField<String> searchBox) {
+        return new AjaxEventBehavior("keydown") {
             @Override
             protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
                 super.updateAjaxAttributes(attributes);
@@ -104,11 +109,20 @@ public class MoviePage extends WebPage implements Serializable {
                 youTubeMovieListView.setList(movieList);
                 target.add(searchResultWrapper);
             }
-        });
+        };
+    }
 
-        searchResultWrapper.add(youTubeMovieListView);
-        add(searchBox);
-        add(searchResultWrapper);
+    private AjaxEventBehavior onMovieClickedEvent(final YouTubeMovie movie) {
+        return new AjaxEventBehavior("onClick") {
+
+            @Override
+            protected void onEvent(AjaxRequestTarget target) {
+                String javaScriptInject = "document.getElementById('ytplayer').src = 'http://www.youtube.com/embed/"
+                        + movie.getId()
+                        + "?autoplay=1&vq=hd720'";
+                target.appendJavaScript(javaScriptInject);
+            }
+        };
     }
 
     private void searchForMovies(String queryTerm) {
