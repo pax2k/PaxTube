@@ -4,8 +4,7 @@ body {
     font-family: monospace;
 }
 
-div.centre
-{
+div.centre {
     width: 300px;
     display: block;
     margin-left: auto;
@@ -17,8 +16,38 @@ img.top {
     vertical-align: middle;
 }
 
-.applicationHeader{
+.applicationHeader {
     padding-top: 25px;
     font-size: 20px;
 }
 
+.searchBox {
+    width: 280px;
+    height: 25px;
+}
+
+.movieWrapper {
+    height: 380px;
+    float: left;
+    padding-left: 5px;
+}
+
+.floatLeft{
+    float: left;
+}
+
+.overflow {
+    overflow: auto;
+}
+
+.borderBottom {
+    border-bottom: 1px solid lightcyan
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.youTubeMovie:hover{
+    background: darkgray;
+}

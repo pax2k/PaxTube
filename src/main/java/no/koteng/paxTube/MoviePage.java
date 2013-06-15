@@ -12,7 +12,6 @@ import org.apache.wicket.ajax.attributes.IAjaxCallListener;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -23,13 +22,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-// AIzaSyDTBkXhZeazdO7pAwusHrefHlLcm0TZ0BY
 public class MoviePage extends WebPage implements Serializable {
     private List<YouTubeMovie> movieList = new ArrayList<YouTubeMovie>();
 
     public MoviePage(PageParameters parameters) {
         super(parameters);
-
 
         final WebMarkupContainer searchResultWrapper = new WebMarkupContainer("searchResultWrapper");
         searchResultWrapper.setOutputMarkupId(true);
@@ -45,16 +42,19 @@ public class MoviePage extends WebPage implements Serializable {
 
                     @Override
                     protected void onEvent(AjaxRequestTarget target) {
-                        String javaScriptInject = "document.getElementById('ytplayer').src = 'http://www.youtube.com/v/"
+                        String javaScriptInject = "document.getElementById('ytplayer').src = 'http://www.youtube.com/embed/"
                                 + movie.getId()
                                 + "?autoplay=1&vq=hd720'";
                         target.appendJavaScript(javaScriptInject);
                     }
                 });
 
-                youTubeMovie.add(new Label("title", movie.getTitle()));
-                youTubeMovie.add(new Image("thumbnail", movie.getThumbnail()));
+                String title = movie.getTitle();
+                if (title.length() > 50) {
+                    title = title.substring(0, 47) + "...";
+                }
 
+                youTubeMovie.add(new ThumbnailImage("thumbnail", movie.getThumbnail(), title));
                 item.add(youTubeMovie);
             }
         };

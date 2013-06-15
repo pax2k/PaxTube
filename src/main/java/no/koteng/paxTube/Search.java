@@ -44,8 +44,6 @@ public class Search {
             SearchListResponse searchResponse = search.execute();
 
             searchResultList = searchResponse.getItems();
-
-            return searchResultList;
         } catch (GoogleJsonResponseException e) {
             System.err.println("There was a service error: " + e.getDetails().getCode() + " : "
                     + e.getDetails().getMessage());
