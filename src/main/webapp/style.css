@@ -27,9 +27,13 @@ img.top {
 }
 
 .movieWrapper {
-    height: 380px;
+    width: 645px;
+    height: 361px;
     float: left;
-    padding-left: 5px;
+}
+
+.movieInformationList{
+    width: 540px;
 }
 
 .floatLeft{
@@ -50,4 +54,22 @@ img.top {
 
 .youTubeMovie:hover{
     background: darkgray;
+}
+
+div.centreMainContent {
+    width: 1200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.footer {
+    width: 185px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+   padding-top: 40px;
+    font-size: small;
+    color: lightgray;
+    clear: both;
 }
