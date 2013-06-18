@@ -10,6 +10,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,11 +21,31 @@ import java.util.List;
 * See https://developers.google.com/youtube/v3/docs/search/list for source.
 * */
 public class Search {
+    private static Logger logger = Logger.getLogger(Search.class.getName());
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static final long NUMBER_OF_VIDEOS_RETURNED = 10;
 
+
+    /*
+
+    A
+    AAAA
+    MX
+    CNAME
+    TXT
+    SPF
+    SRV
+    NS
+    PTR
+    NAPTR
+
+    */
+
+
     public static List<SearchResult> doSearch(String queryTerm) {
+         logger.info("Searching for: :'" + queryTerm + "'") ;
+
         List<SearchResult> searchResultList = new ArrayList<SearchResult>();
 
         try {
