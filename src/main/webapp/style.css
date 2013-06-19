@@ -32,11 +32,11 @@ img.top {
     float: left;
 }
 
-.movieInformationList{
+.movieInformationList {
     width: 540px;
 }
 
-.floatLeft{
+.floatLeft {
     float: left;
 }
 
@@ -52,7 +52,7 @@ img.top {
     cursor: pointer;
 }
 
-.youTubeMovie:hover{
+.youTubeMovie:hover {
     background: darkgray;
 }
 
@@ -68,8 +68,12 @@ div.footer {
     display: block;
     margin-left: auto;
     margin-right: auto;
-   padding-top: 40px;
+    padding-top: 40px;
     font-size: small;
     color: lightgray;
     clear: both;
+}
+
+.metadata {
+    margin-left: 108px;
 }

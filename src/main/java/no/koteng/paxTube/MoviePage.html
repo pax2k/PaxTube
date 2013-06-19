@@ -12,10 +12,13 @@
         _gaq.push(['_setAllowLinker', true]);
         _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
         })();
 
     </script>
@@ -24,7 +27,7 @@
 <body>
 
 <div class="centre">
-    <input wicket:id="searchBox" class="searchBox" type="text" placeholder="Search on youTube..." />
+    <input wicket:id="searchBox" class="searchBox" type="text" placeholder="Search on YouTube..."/>
 </div>
 
 <div class="centreMainContent">
@@ -36,8 +39,8 @@
     </div>
 
     <div wicket:id="searchResultWrapper" class="movieWrapper overflow movieInformationList">
-        <div wicket:id="youTubeMovieListView" class="borderBottom">
-            <div wicket:id="youTubeMovie" class="youTubeMovie pointer">
+        <div wicket:id="youTubeMovieListView" class="">
+            <div wicket:id="youTubeMovie" class="youTubeMovie pointer borderBottom">
             <span>
                 <div wicket:id="thumbnail"></div>
             </span>

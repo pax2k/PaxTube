@@ -5,13 +5,14 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 public class ThumbnailImage extends Panel {
 
-    public ThumbnailImage(String id, String imageUrl, String imageText) {
+    public ThumbnailImage(String id, String imageUrl, String imageText, String infoText) {
         super(id);
 
-        Label label = new Label("imageText", "&nbsp;&nbsp;" + imageText);
-        label.setEscapeModelStrings(false);
+        Label title = new Label("imageText", imageText);
+        Label infoTextLabel = new Label("infoText", infoText);
 
         add(new Image("image", imageUrl));
-        add(label);
+        add(title);
+        add(infoTextLabel);
     }
 }

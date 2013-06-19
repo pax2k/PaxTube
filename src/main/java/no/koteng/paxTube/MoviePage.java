@@ -1,8 +1,5 @@
 package no.koteng.paxTube;
 
-import com.google.api.services.youtube.model.ResourceId;
-import com.google.api.services.youtube.model.SearchResult;
-import com.google.api.services.youtube.model.Thumbnail;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -21,9 +18,12 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MoviePage extends WebPage implements Serializable {
     private List<YouTubeMovie> movieList = new ArrayList<YouTubeMovie>();
+    static ExecutorService executor = Executors.newFixedThreadPool(10);
 
     public MoviePage(PageParameters parameters) {
         super(parameters);
@@ -60,7 +60,12 @@ public class MoviePage extends WebPage implements Serializable {
                     title = title.substring(0, 47) + "...";
                 }
 
-                youTubeMovie.add(new ThumbnailImage("thumbnail", movie.getThumbnail(), title));
+                final String uploaderName = movie.getUploaderName();
+                final String viewCount = movie.getViewCount();
+                final String infoText = String.format("User: %s, views: %s", uploaderName, viewCount);
+                final ThumbnailImage thumbnail = new ThumbnailImage("thumbnail", movie.getThumbnail(), title, infoText);
+
+                youTubeMovie.add(thumbnail);
                 item.add(youTubeMovie);
             }
         };
@@ -93,6 +98,7 @@ public class MoviePage extends WebPage implements Serializable {
                                 "    return false;";
                     }
                 };
+
                 attributes.getAjaxCallListeners().add(listener);
                 attributes.getDynamicExtraParameters()
                         .add("var eventKeycode = Wicket.Event.keyCode(attrs.event);" +
@@ -126,20 +132,10 @@ public class MoviePage extends WebPage implements Serializable {
     }
 
     private void searchForMovies(String queryTerm) {
-        final List<SearchResult> searchResults = Search.doSearch(queryTerm);
-        movieList = new ArrayList<YouTubeMovie>();
-
-        if (searchResults == null) {
-            return;
-        }
-
-        for (SearchResult movie : searchResults) {
-            ResourceId rId = movie.getId();
-
-            if (rId.getKind().equals("youtube#video")) {
-                Thumbnail thumbnail = movie.getSnippet().getThumbnails().get("default");
-                movieList.add(new YouTubeMovie(rId.getVideoId(), movie.getSnippet().getTitle(), thumbnail.getUrl()));
-            }
+        try {
+            movieList = YouTubeManager.doSearch(queryTerm);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
