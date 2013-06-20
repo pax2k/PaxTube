@@ -12,18 +12,16 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.EmptyPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MoviePage extends WebPage implements Serializable {
     private List<YouTubeMovie> movieList = new ArrayList<YouTubeMovie>();
-    static ExecutorService executor = Executors.newFixedThreadPool(10);
 
     public MoviePage(PageParameters parameters) {
         super(parameters);
@@ -62,8 +60,9 @@ public class MoviePage extends WebPage implements Serializable {
 
                 final String uploaderName = movie.getUploaderName();
                 final String viewCount = movie.getViewCount();
-                final String infoText = String.format("User: %s, views: %s", uploaderName, viewCount);
-                final ThumbnailImage thumbnail = new ThumbnailImage("thumbnail", movie.getThumbnail(), title, infoText);
+                final String infoText = String.format("Uploader: %s, Views: %s", uploaderName, viewCount);
+                final String duration = movie.getDuration();
+                final ThumbnailImage thumbnail = new ThumbnailImage("thumbnail", movie.getThumbnail(), title, infoText, duration);
 
                 youTubeMovie.add(thumbnail);
                 item.add(youTubeMovie);
@@ -89,7 +88,7 @@ public class MoviePage extends WebPage implements Serializable {
                 IAjaxCallListener listener = new AjaxCallListener() {
                     @Override
                     public CharSequence getPrecondition(Component component) {
-                        //this javascript code evaluates wether an ajaxcall is necessary.
+                        //this javascript code evaluates whether an Ajax call is necessary.
                         //Here only by keyocdes for enter (13)
                         return "var keycode = Wicket.Event.keyCode(attrs.event);" +
                                 "if (keycode == 13)" +
@@ -104,7 +103,7 @@ public class MoviePage extends WebPage implements Serializable {
                         .add("var eventKeycode = Wicket.Event.keyCode(attrs.event);" +
                                 "return {keycode: eventKeycode};");
 
-                //whithout setting, no keyboard events will reach any inputfield
+                //without setting, no keyboard events will reach any inputfield
                 attributes.setAllowDefault(true);
             }
 
